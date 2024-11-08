@@ -20,24 +20,24 @@ Parameters:
     Default: SecurityAccount
 
 Resources:
-  # MyOrganization:
-  #   Type: 'AWS::Organizations::Organization'
-  #   Properties:
-  #     FeatureSet: ALL
+  MyOrganization:
+    Type: 'AWS::Organizations::Organization'
+    Properties:
+      FeatureSet: ALL
 
-  # LoggingAccount:
-  #   Type: 'AWS::Organizations::Account'
-  #   Properties:
-  #     AccountName: !Ref LoggingAccountName
-  #     Email: !Ref LoggingAccountEmail
-    #DependsOn: MyOrganization
+  LoggingAccount:
+    Type: 'AWS::Organizations::Account'
+    Properties:
+      AccountName: !Ref LoggingAccountName
+      Email: !Ref LoggingAccountEmail
+    DependsOn: MyOrganization
 
-  # SecurityAccount:
-  #   Type: 'AWS::Organizations::Account'
-  #   Properties:
-  #     AccountName: !Ref SecurityAccountName
-  #     Email: !Ref SecurityAccountEmail
-    #DependsOn: MyOrganization
+  SecurityAccount:
+    Type: 'AWS::Organizations::Account'
+    Properties:
+      AccountName: !Ref SecurityAccountName
+      Email: !Ref SecurityAccountEmail
+    DependsOn: MyOrganization
 
   AWSControlTowerAdmin:
     Type: 'AWS::IAM::Role'
@@ -54,7 +54,6 @@ Resources:
       ManagedPolicyArns:
         - !Sub >-
           arn:${AWS::Partition}:iam::aws:policy/service-role/AWSControlTowerServiceRolePolicy
-    #DependsOn: MyOrganization
 
   AWSControlTowerAdminPolicy:
     Type: 'AWS::IAM::Policy'
@@ -68,7 +67,6 @@ Resources:
             Resource: '*'
       Roles:
         - !Ref AWSControlTowerAdmin
-    #DependsOn: MyOrganization
 
   AWSControlTowerCloudTrailRole:
     Type: 'AWS::IAM::Role'
@@ -82,7 +80,6 @@ Resources:
               Service: cloudtrail.amazonaws.com
             Action: 'sts:AssumeRole'
       Path: '/service-role/'
-    # DependsOn: MyOrganization
 
   AWSControlTowerCloudTrailRolePolicy:
     Type: 'AWS::IAM::Policy'
@@ -99,7 +96,6 @@ Resources:
             Effect: Allow
       Roles:
         - !Ref AWSControlTowerCloudTrailRole
-    #DependsOn: MyOrganization
 
   AWSControlTowerConfigAggregatorRoleForOrganizations:
     Type: 'AWS::IAM::Role'
@@ -115,7 +111,6 @@ Resources:
       Path: '/service-role/'
       ManagedPolicyArns:
         - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSConfigRoleForOrganizations
-    #DependsOn: MyOrganization
 
   AWSControlTowerStackSetRole:
     Type: 'AWS::IAM::Role'
@@ -129,7 +124,6 @@ Resources:
               Service: cloudformation.amazonaws.com
             Action: 'sts:AssumeRole'
       Path: '/service-role/'
-    # DependsOn: MyOrganization
 
   AWSControlTowerStackSetRolePolicy:
     Type: 'AWS::IAM::Policy'
@@ -143,16 +137,15 @@ Resources:
             Effect: Allow
       Roles:
         - !Ref AWSControlTowerStackSetRole
-    #DependsOn: MyOrganization
 
-# Outputs:
-  # LogAccountId:
-  #   Value:
-  #     Fn::GetAtt: LoggingAccount.AccountId
-  #   Export:
-  #     Name: LogAccountId
-  # SecurityAccountId:
-  #   Value:
-  #     Fn::GetAtt: SecurityAccount.AccountId
-  #   Export:
-  #     Name: SecurityAccountId
+Outputs:
+  LogAccountId:
+    Value:
+      Fn::GetAtt: LoggingAccount.AccountId
+    Export:
+      Name: LogAccountId
+  SecurityAccountId:
+    Value:
+      Fn::GetAtt: SecurityAccount.AccountId
+    Export:
+      Name: SecurityAccountId
