@@ -1,0 +1,99 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Landing Zone with Control Tower
+
+Parameters:
+  Version:
+    Type: String
+    Description: The version number of Landing Zone
+    Default: "3.3"
+
+  GovernedRegions:
+    Type: CommaDelimitedList
+    Description: List of governed regions
+    Default: "us-east-1,us-west-2"
+
+  SecurityOuName:
+    Type: String
+    Description: The security Organizational Unit name
+    Default: "SecurityOU"
+
+  SandboxOuName:
+    Type: String
+    Description: The sandbox Organizational Unit name
+    Default: "SandboxOU"
+
+  CentralizedLoggingAccountId:
+    Type: String
+    Description: The AWS account ID for centralized logging
+    Default: "588738609666"
+
+  SecurityAccountId:
+    Type: String
+    Description: The AWS account ID for security roles
+    Default: "390402557413"
+
+  LoggingBucketRetentionPeriod:
+    Type: Number
+    Description: Retention period for centralized logging bucket
+    Default: 365
+
+  AccessLoggingBucketRetentionPeriod:
+    Type: Number
+    Description: Retention period for access logging bucket
+    Default: 365
+
+  # KMSKey:
+  #   Type: String
+  #   Description: KMS key ARN used by CloudTrail and Config service to encrypt data in logging bucket
+
+Resources:
+  MyLandingZone:
+    Type: 'AWS::ControlTower::LandingZone'
+    Properties:
+      Version:
+        Ref: Version
+      Tags:
+        - Key: "keyname1"
+          Value: "value1"
+        - Key: "keyname2"
+          Value: "value2"
+      Manifest:
+        governedRegions:
+          Ref: GovernedRegions
+        organizationStructure:
+          security:
+            name:
+              Ref: SecurityOuName
+          sandbox:
+            name:
+              Ref: SandboxOuName
+        centralizedLogging:
+          accountId:
+            Ref: CentralizedLoggingAccountId
+          configurations:
+            loggingBucket:
+              retentionDays:
+                Ref: LoggingBucketRetentionPeriod
+            accessLoggingBucket:
+              retentionDays:
+                Ref: AccessLoggingBucketRetentionPeriod
+            # kmsKeyArn:
+            #   Ref: KMSKEY
+          enabled: true
+        securityRoles:
+          accountId:
+            Ref: SecurityAccountId
+        accessManagement:
+          enabled: true 
+
+# Outputs:
+#   LogAccountId:
+#     Value:
+#       Fn::GetAtt: LoggingAccount.AccountId
+#     Export:
+#       Name: LogAccountId
+#   SecurityAccountId:
+#     Value:
+#       Fn::GetAtt: SecurityAccount.AccountId
+#     Export:
+#       Name: SecurityAccountId
