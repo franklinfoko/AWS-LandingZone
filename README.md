@@ -9,3 +9,10 @@ aws cloudformation validate-template --template-body file://landingZone.yml
 ```
 aws cloudformation create-stack --stack-name MyStackName --template-body file://prerequisites.yml --capabilities CAPABILITY_NAMED_IAM --parameters ParameterKey=LoggingAccountName,ParameterValue=LoggingAccount ParameterKey=LoggingAccountEmail,ParameterValue=logging@example.com ParameterKey=SecurityAccountName,ParameterValue=SecurityAccount ParameterKey=SecurityAccountEmail,ParameterValue=security@example.com
 ```
+
+npm install -g cfn-include
+
+cfn-include main.yml -o combined.yml
+
+
+aws cloudformation deploy --template-file combined.yml --stack-name your-stack-name
