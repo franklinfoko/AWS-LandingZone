@@ -2038,7 +2038,7 @@ Resources:
                 Branch:
                   Ref: RepositoryBranchName
                 OAuthToken: >-
-                  {{resolve:secretsmanager:accelerator/github-token:SecretString:github-token}}
+                  {{resolve:secretsmanager:accelerator/github-token:SecretString:::}}
                 PollForSourceChanges: true
               Name: Source
               OutputArtifacts:

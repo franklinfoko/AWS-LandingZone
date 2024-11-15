@@ -20,7 +20,7 @@ Resources:
                 Repo: k8s
                 Branch: main
                 OAuthToken: >-
-                  {{resolve:secretsmanager:accelerator/github-token:SecretString:github-token}}
+                  {{resolve:secretsmanager:accelerator/github-token:SecretString:::}}
               RunOrder: 1
         - Name: Echo
           Actions:
