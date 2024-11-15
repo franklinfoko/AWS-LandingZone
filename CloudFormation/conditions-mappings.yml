@@ -1,0 +1,41 @@
+Conditions:
+  IsCommercialCondition:
+    Fn::Equals:
+      - Ref: AWS::Partition
+      - aws
+  SolutionHelperAnonymousDataToAWS62E4FDE2:
+    Fn::Equals:
+      - Fn::FindInMap:
+          - SolutionHelperAnonymousData14B64A81
+          - SendAnonymizedData
+          - Data
+      - Yes
+  UseCodeCommitCondition:
+    Fn::Equals:
+      - Ref: RepositorySource
+      - codecommit
+  UseGitHubCondition:
+    Fn::Equals:
+      - Ref: RepositorySource
+      - github
+
+
+Mappings:
+  GlobalRegionMap:
+    aws:
+      regionName: us-east-1
+    aws-us-gov:
+      regionName: us-gov-west-1
+    aws-iso-e:
+      regionName: eu-isoe-west-1
+    aws-iso-f:
+      regionName: us-isof-south-1
+    aws-iso-b:
+      regionName: us-isob-east-1
+    aws-iso:
+      regionName: us-iso-east-1
+    aws-cn:
+      regionName: cn-northwest-1
+  SolutionHelperAnonymousData14B64A81:
+    SendAnonymizedData:
+      Data: Yes

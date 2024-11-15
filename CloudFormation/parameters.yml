@@ -1,0 +1,118 @@
+Parameters:
+  RepositorySource:
+    Type: String
+    Default: github
+    AllowedValues:
+      - github
+      - codecommit
+    Description: Specify the location to use to host the LZA source code
+
+  RepositoryOwner:
+    Type: String
+    Default: awslabs
+    Description: The owner of the repository containing the accelerator code. (GitHub Only)
+
+  RepositoryName:
+    Type: String
+    Default: landing-zone-accelerator-on-aws
+    Description: The name of the git repository hosting the accelerator code
+
+  RepositoryBranchName:
+    Type: String
+    Default: release/v1.10.0
+    AllowedPattern: .+
+    ConstraintDescription: The repository branch name must not be empty
+    Description: The name of the git branch to use for installation. To determine the branch name, navigate to the Landing Zone Accelerator GitHub branches page and choose the release branch you would like to deploy. Release branch names will align with the semantic versioning of our GitHub releases. New release branches will be available as the open source project is updated with new features.
+  
+  EnableApprovalStage:
+    Type: String
+    Default: Yes
+    AllowedValues:
+      - Yes
+      - No
+    Description: Select yes to add a Manual Approval stage to accelerator pipeline
+
+  ApprovalStageNotifyEmailList:
+    Type: CommaDelimitedList
+    Description: Provide comma(,) separated list of email ids to receive manual approval stage notification email
+    Default: fokofranklin47@gmail.com
+
+  ManagementAccountEmail:
+    Type: String
+    Default: franklinfoko1@gmail.com
+    AllowedPattern: '[^\\s@]+@[^\\s@]+\\.[^\\s@]+'
+    ConstraintDescription: Must be a valid email address matching "[^\\s@]+@[^\\s@]+\\.[^\\s@]+"
+    Description: 'The management (primary) account email - NOTE: This must match the address of the management account email as listed in AWS Organizations > AWS accounts.'
+
+  LogArchiveAccountEmail:
+    Type: String
+    Default: lz-dev+log-archive@become-devops.com
+    AllowedPattern: '[^\\s@]+@[^\\s@]+\\.[^\\s@]+'
+    ConstraintDescription: Must be a valid email address matching "[^\\s@]+@[^\\s@]+\\.[^\\s@]+"
+    Description: The log archive account email
+
+  AuditAccountEmail:
+    Type: String
+    Default: lz-dev+security@become-devops.com
+    AllowedPattern: '[^\\s@]+@[^\\s@]+\\.[^\\s@]+'
+    ConstraintDescription: Must be a valid email address matching "[^\\s@]+@[^\\s@]+\\.[^\\s@]+"
+    Description: The security audit account (also referred to as the audit account)
+
+  ControlTowerEnabled:
+    Type: String
+    Default: Yes
+    AllowedValues:
+      - Yes
+      - No
+    Description: Select yes if deploying to a Control Tower environment. Select no if using just Organizations. If no, you must first set up mandatory accounts.
+
+  AcceleratorPrefix:
+    Type: String
+    Default: AWSAccelerator
+    AllowedPattern: '[A-Za-z0-9-]+'
+    Description: 'The prefix value for accelerator deployed resources. Leave the default value if using solution defined resource name prefix, the solution will use AWSAccelerator as resource name prefix. Note: Updating this value after initial installation will cause stack failure. Non-default value can not start with keyword "aws" or "ssm". Trailing dash (-) in non-default value will be ignored.'
+    MaxLength: 15
+  
+  ConfigurationRepositoryLocation:
+    Type: String
+    AllowedValues:
+      - codecommit
+      - s3
+      - codeconnection
+    Description: Specify the location to use to host the LZA configuration files
+
+  UseExistingConfigRepo:
+    Type: String
+    Default: No
+    AllowedValues:
+      - Yes
+      - No
+    Description: 'Select Yes if deploying the solution with an existing configuration repository. Leave the default value if using the solution-deployed repository. If the AcceleratorPrefix parameter is set to the default value, the solution will deploy a repository named "aws-accelerator-config." Otherwise, the solution-deployed repository will be named "AcceleratorPrefix-config." Note: Updating this value after initial installation may cause adverse affects.'
+  
+  ConfigCodeConnectionArn:
+    Type: String
+    Default: ''
+    Description: The ARN of an AWS CodeConnection referencing your existing LZA configuration repository. To use this parameter, useExistingConfigRepo must be set to Yes and ConfigurationRepositoryLocation must be set to codeconnection.
+  
+  ExistingConfigRepositoryOwner:
+    Type: String
+    Default: ''
+    Description: The owner ID or namespace of the LZA configuration repository accessed through CodeConnection, such as the owner ID in GitHub. (CodeConnection only)
+  
+  ExistingConfigRepositoryName:
+    Type: String
+    Default: ''
+    Description: The name of an existing LZA configuration repository hosting the accelerator configuration.
+  
+  ExistingConfigRepositoryBranchName:
+    Type: String
+    Default: ''
+    Description: Specify the branch name of the existing LZA configuration repository to pull the accelerator configuration from.
+  
+  EnableDiagnosticsPack:
+    Type: String
+    Default: Yes
+    AllowedValues:
+      - Yes
+      - No
+    Description: Select Yes if deploying the solution with diagnostics pack enabled. Diagnostics pack enables you to generate root cause reports to potentially diagnose pipeline failures.

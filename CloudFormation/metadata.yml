@@ -1,0 +1,50 @@
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label: default
+        Source Code Repository Configuration Parameters:
+          - RepositorySource
+          - RepositoryOwner
+          - RepositoryName
+          - RepositoryBranchName
+      - Label: default
+        Pipeline Configuration Parameters:
+          - EnableApprovalStage
+          - ApprovalStageNotifyEmailList
+      - Label: default
+        Mandatory Accounts Configuration Parameters:
+          - ManagementAccountEmail
+          - LogArchiveAccountEmail
+          - AuditAccountEmail
+      - Label: default
+        Environment Configuration Parameters:
+          - ControlTowerEnabled
+          - AcceleratorPrefix
+          - EnableDiagnosticsPack
+      - Label: default
+        Config Repository Configuration Parameters:
+          - ConfigurationRepositoryLocation
+          - UseExistingConfigRepo
+          - ExistingConfigRepositoryName
+          - ExistingConfigRepositoryBranchName
+          - ExistingConfigRepositoryOwner
+          - ConfigCodeConnectionArn
+    ParameterLabels:
+      RepositorySource: default Source Location
+      RepositoryOwner: default Repository Owner
+      RepositoryName: default Repository Name
+      RepositoryBranchName: default Branch Name
+      ConfigurationRepositoryLocation: default Configuration Repository Location
+      UseExistingConfigRepo: default Use Existing Config Repository
+      ExistingConfigRepositoryName: default Existing Config Repository Name
+      ExistingConfigRepositoryBranchName: default Existing Config Repository Branch Name
+      ExistingConfigRepositoryOwner: default Existing Config Repository Owner
+      ConfigCodeConnectionArn: default Existing Config Repository CodeConnection ARN
+      EnableDiagnosticsPack: default Enable Diagnostics Pack
+      EnableApprovalStage: default Enable Approval Stage
+      ApprovalStageNotifyEmailList: default Manual Approval Stage notification email list
+      ManagementAccountEmail: default Management Account Email
+      LogArchiveAccountEmail: default Log Archive Account Email
+      AuditAccountEmail: default Audit Account Email
+      ControlTowerEnabled: default Control Tower Environment
+      AcceleratorPrefix: default Accelerator Resource name prefix
